@@ -1,4 +1,4 @@
-from arix.arix import ARIX
+from src.arix import ARIX
 
 arix = ARIX(baudrate=9600)
 
