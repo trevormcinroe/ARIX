@@ -1,16 +1,5 @@
-import serial
-from serial.tools import list_ports
-import time
+from arix.arix import ARIX
 
-available_ports = serial.tools.list_ports.comports()
+arix = ARIX(baudrate=9600)
 
-for port in available_ports:
-    print(port)
-    if 'tty' in port.device:
-        port_open = port.device
-
-serial_con = serial.Serial(port=port_open,
-                           baudrate=9600,
-                           timeout=1)
-
-print(serial_con)
+print(arix.serial_connection)
