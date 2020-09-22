@@ -28,4 +28,3 @@ class ARIX:
 
     def send_action(self, action):
         self.serial_connection.write(action + '\n').encode('utf-8')
-        
