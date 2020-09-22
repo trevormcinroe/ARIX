@@ -27,4 +27,5 @@ class ARIX:
         self.serial_connection = serial.Serial(port=self.port, baudrate=self.baudrate, timeout=self.timeout)
 
     def send_action(self, action):
+        self.serial_connection.flush()
         self.serial_connection.write((action + '\n').encode('utf-8'))
