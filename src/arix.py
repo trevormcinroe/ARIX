@@ -21,7 +21,7 @@ class ARIX:
         available_ports = list_ports.comports()
 
         for port in available_ports:
-            if 'tty' in port.device:
+            if 'ttyAC' in port.device:
                 self.port = port.device
 
         self.serial_connection = serial.Serial(port=self.port, baudrate=self.baudrate, timeout=self.timeout)
