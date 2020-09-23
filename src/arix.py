@@ -1,5 +1,5 @@
 """
-
+class for ARIX hexapod connection.
 """
 
 import serial
