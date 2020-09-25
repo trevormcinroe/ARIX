@@ -3,9 +3,20 @@ import time
 
 arix = ARIX(baudrate=9600)
 
-print(arix.serial_connection)
+action_mapping = {
+    0: 'NA',
+    1: 'f',
+    2: 'b',
+    3: 'r',
+    4: 'l'
+}
 
-for _ in range(10):
+
+while True:
+    # Here, an image would be taken with the camera on the Pi
+    # Then, the image would be pre-processed and then fed into the NN
+    # Out of the NN comes a predictions
+    # Finally, the prediction is transformed into an action and sent to the robot
     time.sleep(3)
     arix.send_action(action='f')
 
