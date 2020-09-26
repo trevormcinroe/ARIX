@@ -36,3 +36,9 @@ class CameraManager:
         time.sleep(self.video_length)
         self.camera.stop_recording()
         self.camera.stop_preview()
+
+    def take_picture(self, file_name):
+        """"""
+        self.camera.start_preview()
+        self.camera.capture('./' + file_name + '.jpg')
+        self.camera.stop_preview()
