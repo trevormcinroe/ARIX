@@ -4,8 +4,10 @@
 
 import time
 import os
+from io import BytesIO
+from PIL import Image
 from picamera import PiCamera
-
+import numpy as np
 
 class CameraManager:
     """
@@ -36,3 +38,13 @@ class CameraManager:
         time.sleep(self.video_length)
         self.camera.stop_recording()
         self.camera.stop_preview()
+
+    def take_image(self):
+        stream = BytesIO()
+        self.camera.start_preview()
+        self.camera.capture(stream, format='jpeg')
+        stream.seek(0)
+        image = Image.open(stream)
+        self.camera.stop_preview()
+        return np.array(image)
+

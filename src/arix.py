@@ -7,12 +7,14 @@ from serial.tools import list_ports
 import tflite_runtime.interpreter as tflite
 import os
 import numpy as np
+from camera_manager import CameraManager
 
 
 class ARIX:
 
-    def __init__(self, baudrate, timeout=1):
+    def __init__(self, baudrate, camera=CameraManager, timeout=1):
         self.baudrate = baudrate
+        self.camera = camera
         self.timeout = timeout
 
         self.model = None
@@ -55,3 +57,5 @@ class ARIX:
 
 a = ARIX(baudrate=9600)
 a._test_model()
+
+
