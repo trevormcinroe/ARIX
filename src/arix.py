@@ -12,7 +12,7 @@ from camera_manager import CameraManager
 
 class ARIX:
 
-    def __init__(self, baudrate, camera=CameraManager, timeout=1):
+    def __init__(self, baudrate, camera=CameraManager((512, 512)), timeout=1):
         self.baudrate = baudrate
         self.camera = camera
         self.timeout = timeout
@@ -55,7 +55,10 @@ class ARIX:
         output_data = self.model.get_tensor(self.output_details[0]['index'])
         print(output_data)
 
+    def get_image(self):
+        return self.camera.take_image()
+
 a = ARIX(baudrate=9600)
 a._test_model()
 
-
+print(a.get_image)
