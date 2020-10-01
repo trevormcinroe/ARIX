@@ -37,16 +37,21 @@ class ARIX:
         self.serial_connection.flush()
         self.serial_connection.write((action + '\n').encode('utf-8'))
 
-
     def _load_model(self):
-        self.model = tflite.Interpreter(model_path=os.path.join(__file__, 'model/arix_model_optim.tflite'))
+        self.model = tflite.Interpreter(model_path='./src/model/arix_model_optim.tflite')
+        self.model.resize_tensor_input(0, (1, 512, 512, 3))
         self.model.allocate_tensors()
         self.input_details = self.model.get_input_details()
         self.output_details = self.model.get_output_details()
 
     def _test_model(self):
-        data = np.random.random((512, 512, 3))
+        data = np.array(np.random.random((512, 512, 3)), dtype=np.float32);
+        print(data.shape)
+        data = np.expand_dims(data, axis=0)
         self.model.set_tensor(self.input_details[0]['index'], data)
         self.model.invoke()
         output_data = self.model.get_tensor(self.output_details[0]['index'])
         print(output_data)
+
+a = ARIX(baudrate=9600)
+a._test_model()
