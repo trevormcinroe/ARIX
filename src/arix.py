@@ -59,6 +59,11 @@ class ARIX:
         return self.camera.take_image()
 
 a = ARIX(baudrate=9600)
-a._test_model()
+#a._test_model()
 
-print(a.get_image)
+import time
+time.sleep(8)
+
+print(a.get_prediction())
+#a.camera.test()
+

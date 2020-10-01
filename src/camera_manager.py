@@ -46,5 +46,13 @@ class CameraManager:
         stream.seek(0)
         image = Image.open(stream)
         self.camera.stop_preview()
-        return np.array(image) / 255.
+        return np.array(image, dtype=np.float32) / 255.
 
+    def test(self):
+        self.camera.start_preview()
+        self.camera.capture('./test.jpeg')
+        self.camera.stop_preview()
+
+# time.sleep(8)
+# a = CameraManager((512, 512))
+# a.test()
