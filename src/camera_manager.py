@@ -31,14 +31,8 @@ class CameraManager:
             .mp4 file
         """
         self.camera.start_preview()
-
-        self.camera.start_recording('./' + file_name + '.mp4')
+        # The pi's camera is not compatible with .mp4
+        self.camera.start_recording('./' + file_name + '.h264')
         time.sleep(self.video_length)
         self.camera.stop_recording()
-        self.camera.stop_preview()
-
-    def take_picture(self, file_name):
-        """"""
-        self.camera.start_preview()
-        self.camera.capture('./' + file_name + '.jpg')
         self.camera.stop_preview()
