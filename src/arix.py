@@ -40,7 +40,7 @@ class ARIX:
         self.serial_connection.write((action + '\n').encode('utf-8'))
 
     def _load_model(self):
-        self.model = tflite.Interpreter(model_path='./src/model/arix_model.tflite')
+        self.model = tflite.Interpreter(model_path='./src/model/arix_model_fc.tflite')
         self.model.resize_tensor_input(0, (1, 512, 512, 3))
         self.model.allocate_tensors()
         self.input_details = self.model.get_input_details()
