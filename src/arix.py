@@ -8,6 +8,7 @@ import tflite_runtime.interpreter as tflite
 import os
 import numpy as np
 from camera_manager import CameraManager
+import time
 
 
 class ARIX:
@@ -17,6 +18,7 @@ class ARIX:
         self.camera = camera
         self.timeout = timeout
 
+        self.mapping = {0: 'right', 1: 'left', 2: 'backwards', 3: 'forwards', 4: 'None'}
         self.model = None
         self.input_details = None
         self.output_details = None
@@ -40,7 +42,7 @@ class ARIX:
         self.serial_connection.write((action + '\n').encode('utf-8'))
 
     def _load_model(self):
-        self.model = tflite.Interpreter(model_path='./src/model/arix_model_fc.tflite')
+        self.model = tflite.Interpreter(model_path='./src/model/arix_model_final.tflite')
         self.model.resize_tensor_input(0, (1, 512, 512, 3))
         self.model.allocate_tensors()
         self.input_details = self.model.get_input_details()
@@ -58,12 +60,19 @@ class ARIX:
     def get_image(self):
         return self.camera.take_image()
 
-a = ARIX(baudrate=9600)
-#a._test_model()
+    def get_prediction(self):
+        img = self.get_image()
+        img = np.expand_dims(img, axis=0)
+        self.model.set_tensor(self.input_details[0]['index'], img)
+        self.model.invoke()
+        output_data = self.model.get_tensor(self.output_details[0]['index'])
+        return np.argmax(output_data)
 
-import time
-time.sleep(8)
 
-print(a.get_prediction())
-#a.camera.test()
+arix = ARIX(baudrate=9600)
+
+for _ in range(1000):
+    pred = arix.get_prediction()
+    arix.send_action(action=pred)
+    time.sleep(8)  # How long should we wait for the ARIX to complete her action sequence?
 

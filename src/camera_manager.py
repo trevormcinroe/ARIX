@@ -40,12 +40,12 @@ class CameraManager:
         self.camera.stop_preview()
 
     def take_image(self):
-        stream = BytesIO()
         self.camera.start_preview()
-        self.camera.capture(stream, format='jpeg')
-        stream.seek(0)
-        image = Image.open(stream)
+        time.sleep(0.5)
+        self.camera.capture('./test.jpg')
+        image = Image.open('./test.jpg')
         self.camera.stop_preview()
+        os.remove('./test.jpg')
         return np.array(image, dtype=np.float32) / 255.
 
     def test(self):
