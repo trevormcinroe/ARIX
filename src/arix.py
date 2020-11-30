@@ -18,7 +18,7 @@ class ARIX:
         self.camera = camera
         self.timeout = timeout
 
-        self.mapping = {0: 'right', 1: 'left', 2: 'backwards', 3: 'forwards', 4: 'None'}
+        self.mapping = {0: 'r', 1: 'l', 2: 'b', 3: 'f', 4: 'None'}
         self.model = None
         self.input_details = None
         self.output_details = None
@@ -39,6 +39,7 @@ class ARIX:
 
     def send_action(self, action):
         self.serial_connection.flush()
+        action = self.mapping[action]
         self.serial_connection.write((action + '\n').encode('utf-8'))
 
     def _load_model(self):
@@ -67,12 +68,3 @@ class ARIX:
         self.model.invoke()
         output_data = self.model.get_tensor(self.output_details[0]['index'])
         return np.argmax(output_data)
-
-
-arix = ARIX(baudrate=9600)
-
-for _ in range(1000):
-    pred = arix.get_prediction()
-    arix.send_action(action=pred)
-    time.sleep(8)  # How long should we wait for the ARIX to complete her action sequence?
-

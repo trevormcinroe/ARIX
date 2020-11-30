@@ -52,7 +52,3 @@ class CameraManager:
         self.camera.start_preview()
         self.camera.capture('./test.jpeg')
         self.camera.stop_preview()
-
-# time.sleep(8)
-# a = CameraManager((512, 512))
-# a.test()
